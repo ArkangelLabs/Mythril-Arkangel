@@ -1,0 +1,63 @@
+name: Deploy to AWS Lightsail
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+env:
+  LIGHTSAIL_HOST: 3.238.145.199
+  SITE_NAME: haley.localhost
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.LIGHTSAIL_SSH_KEY }}" > ~/.ssh/lightsail.pem
+          chmod 600 ~/.ssh/lightsail.pem
+          ssh-keyscan -H ${{ env.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy custom apps
+        run: |
+          # Copy enhanced_kanban_view to server
+          scp -i ~/.ssh/lightsail.pem -r apps/enhanced_kanban_view ubuntu@${{ env.LIGHTSAIL_HOST }}:/tmp/
+
+          # Install/update the app
+          ssh -i ~/.ssh/lightsail.pem ubuntu@${{ env.LIGHTSAIL_HOST }} << 'DEPLOY'
+            cd /opt/haley
+            BACKEND=$(sudo docker-compose ps -q backend)
+
+            # Check if app already installed
+            if sudo docker exec $BACKEND bench --site ${{ env.SITE_NAME }} list-apps | grep -q enhanced_kanban_view; then
+              echo "Updating enhanced_kanban_view..."
+              sudo docker cp /tmp/enhanced_kanban_view $BACKEND:/home/frappe/frappe-bench/apps/enhanced_kanban_view
+              sudo docker exec $BACKEND bench --site ${{ env.SITE_NAME }} migrate
+            else
+              echo "Installing enhanced_kanban_view..."
+              sudo docker cp /tmp/enhanced_kanban_view $BACKEND:/home/frappe/frappe-bench/apps/enhanced_kanban_view
+              sudo docker exec $BACKEND bench --site ${{ env.SITE_NAME }} install-app enhanced_kanban_view
+            fi
+
+            # Build assets
+            sudo docker exec $BACKEND bench build --app enhanced_kanban_view
+
+            # Clear cache
+            sudo docker exec $BACKEND bench --site ${{ env.SITE_NAME }} clear-cache
+
+            # Restart services
+            sudo docker-compose restart backend queue-short queue-long scheduler
+
+            echo "Deployment complete!"
+          DEPLOY
+
+      - name: Health check
+        run: |
+          sleep 30
+          curl -f http://${{ env.LIGHTSAIL_HOST }}:8080 || echo "Site may still be starting..."
