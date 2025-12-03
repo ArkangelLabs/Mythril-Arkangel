@@ -23,35 +23,24 @@ jobs:
 
       - name: Deploy
         run: |
-          ssh -i ~/.ssh/lightsail.pem ubuntu@${{ env.LIGHTSAIL_HOST }} << 'DEPLOY'
-            sudo -u frappe bash << 'FRAPPE'
-              set -e
-              cd /home/frappe/repos/haley
+          ssh -i ~/.ssh/lightsail.pem ubuntu@${{ env.LIGHTSAIL_HOST }} 'bash -s' << 'EOF'
+          set -e
 
-              echo "=== Pulling latest code ==="
-              git pull origin main
+          echo "=== Pulling latest code ==="
+          cd /home/frappe/repos/haley
+          sudo -u frappe git pull origin main
 
-              cd /home/frappe/frappe-bench
-              export PATH=$PATH:/home/frappe/.local/bin
+          echo "=== Running deployment ==="
+          cd /home/frappe/frappe-bench
+          sudo -u frappe /home/frappe/.local/bin/bench --site haley.localhost migrate --skip-failing
+          sudo -u frappe /home/frappe/.local/bin/bench build --app enhanced_kanban_view
+          sudo -u frappe /home/frappe/.local/bin/bench --site haley.localhost clear-cache
 
-              echo "=== Reinstalling app ==="
-              ./env/bin/pip install -q -e apps/enhanced_kanban_view
+          echo "=== Restarting services ==="
+          sudo supervisorctl restart all
 
-              echo "=== Running migrations ==="
-              bench --site haley.localhost migrate --skip-failing
-
-              echo "=== Building assets ==="
-              bench build --app enhanced_kanban_view
-
-              echo "=== Clearing cache ==="
-              bench --site haley.localhost clear-cache
-            FRAPPE
-
-            echo "=== Restarting services ==="
-            sudo supervisorctl restart all
-
-            echo "=== Deployment complete! ==="
-          DEPLOY
+          echo "=== Deployment complete! ==="
+          EOF
 
       - name: Health check
         run: |
