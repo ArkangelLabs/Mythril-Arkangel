@@ -3,8 +3,12 @@
 
 FROM frappe/erpnext:v16
 
-# Copy enhanced_kanban_view app
-COPY apps/enhanced_kanban_view /home/frappe/frappe-bench/apps/enhanced_kanban_view
+# Copy enhanced_kanban_view app with correct ownership
+COPY --chown=frappe:frappe apps/enhanced_kanban_view /home/frappe/frappe-bench/apps/enhanced_kanban_view
+
+# Copy custom assets (logo, theme)
+COPY --chown=frappe:frappe assets/haley-logo.png /home/frappe/frappe-bench/sites/assets/haley-logo.png
+COPY --chown=frappe:frappe assets/haley-theme.css /home/frappe/frappe-bench/sites/assets/haley-theme.css
 
 # Install the app properly using bench's virtual environment
 # Note: bench build runs at deploy time after site exists

@@ -1,0 +1,389 @@
+/* Haley Custom Theme for ERPNext/Frappe */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Source+Code+Pro:wght@400;500;600&display=swap');
+
+:root {
+  /* Haley Theme Variables */
+  --haley-background: oklch(0.9551 0 0);
+  --haley-foreground: oklch(0.3211 0 0);
+  --haley-card: oklch(0.9702 0 0);
+  --haley-primary: oklch(0.4891 0 0);
+  --haley-primary-foreground: oklch(1.0000 0 0);
+  --haley-secondary: oklch(0.9067 0 0);
+  --haley-muted: oklch(0.8853 0 0);
+  --haley-muted-foreground: oklch(0.5103 0 0);
+  --haley-accent: oklch(0.4997 0.0979 228.4494);
+  --haley-accent-foreground: oklch(0.9401 0 0);
+  --haley-destructive: oklch(0.6146 0.1382 43.8699);
+  --haley-border: oklch(0.8576 0 0);
+  --haley-input: oklch(0.9067 0 0);
+  --haley-sidebar: oklch(0.9370 0 0);
+  --haley-radius: 0.825rem;
+
+  /* Map to Frappe variables */
+  --bg-color: oklch(0.9551 0 0);
+  --fg-color: oklch(0.3211 0 0);
+  --text-color: oklch(0.3211 0 0);
+  --text-muted: oklch(0.5103 0 0);
+  --text-light: oklch(0.5103 0 0);
+  --heading-color: oklch(0.3211 0 0);
+
+  --primary: oklch(0.4997 0.0979 228.4494);
+  --primary-color: oklch(0.4997 0.0979 228.4494);
+
+  --card-bg: oklch(0.9702 0 0);
+  --control-bg: oklch(0.9067 0 0);
+  --control-bg-on-gray: oklch(0.9702 0 0);
+
+  --border-color: oklch(0.8576 0 0);
+  --dark-border-color: oklch(0.8576 0 0);
+
+  --btn-default-bg: oklch(0.9067 0 0);
+  --btn-default-hover-bg: oklch(0.8853 0 0);
+
+  --sidebar-bg: oklch(0.9370 0 0);
+  --navbar-bg: oklch(0.9702 0 0);
+
+  --awesomebar-focus-bg: oklch(0.9702 0 0);
+
+  --alert-bg-info: oklch(0.9551 0.02 228);
+  --alert-text-info: oklch(0.4997 0.0979 228.4494);
+
+  --shadow-sm: 0px 2px 0px 0px hsl(0 0% 20% / 0.00), 0px 1px 2px -1px hsl(0 0% 20% / 0.00);
+  --shadow-base: 0px 2px 0px 0px hsl(0 0% 20% / 0.00), 0px 1px 2px -1px hsl(0 0% 20% / 0.00);
+
+  --border-radius: 0.825rem;
+  --border-radius-sm: calc(0.825rem - 4px);
+  --border-radius-md: calc(0.825rem - 2px);
+  --border-radius-lg: 0.825rem;
+  --border-radius-full: 9999px;
+}
+
+/* Dark mode */
+[data-theme="dark"],
+.dark,
+html[data-theme-mode="dark"] {
+  --haley-background: oklch(0.2178 0 0);
+  --haley-foreground: oklch(0.8853 0 0);
+  --haley-card: oklch(0.2435 0 0);
+  --haley-primary: oklch(0.7380 0 0);
+  --haley-primary-foreground: oklch(0.2178 0 0);
+  --haley-secondary: oklch(0.3092 0 0);
+  --haley-muted: oklch(0.2850 0 0);
+  --haley-muted-foreground: oklch(0.5999 0 0);
+  --haley-accent: oklch(0.4997 0.0979 228.4494);
+  --haley-border: oklch(0.3290 0 0);
+  --haley-input: oklch(0.3092 0 0);
+  --haley-sidebar: oklch(0.2393 0 0);
+
+  --bg-color: oklch(0.2178 0 0);
+  --fg-color: oklch(0.8853 0 0);
+  --text-color: oklch(0.8853 0 0);
+  --text-muted: oklch(0.5999 0 0);
+  --text-light: oklch(0.5999 0 0);
+  --heading-color: oklch(0.8853 0 0);
+
+  --primary: oklch(0.4997 0.0979 228.4494);
+  --primary-color: oklch(0.4997 0.0979 228.4494);
+
+  --card-bg: oklch(0.2435 0 0);
+  --control-bg: oklch(0.3092 0 0);
+  --control-bg-on-gray: oklch(0.2435 0 0);
+
+  --border-color: oklch(0.3290 0 0);
+  --dark-border-color: oklch(0.3290 0 0);
+
+  --btn-default-bg: oklch(0.3092 0 0);
+  --btn-default-hover-bg: oklch(0.3715 0 0);
+
+  --sidebar-bg: oklch(0.2393 0 0);
+  --navbar-bg: oklch(0.2435 0 0);
+
+  --awesomebar-focus-bg: oklch(0.2435 0 0);
+}
+
+/* Font family */
+body,
+.frappe-control,
+.form-control,
+input,
+textarea,
+select,
+button,
+.btn {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.025em;
+}
+
+code,
+pre,
+.code,
+.monaco-editor {
+  font-family: 'Source Code Pro', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* Global styles */
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+/* Navbar */
+.navbar {
+  background-color: var(--navbar-bg) !important;
+  border-bottom: 1px solid var(--border-color);
+  box-shadow: none;
+}
+
+.navbar .navbar-brand img {
+  height: 28px;
+}
+
+/* Sidebar */
+.layout-side-section,
+.desk-sidebar {
+  background-color: var(--sidebar-bg);
+  border-right: 1px solid var(--border-color);
+}
+
+.sidebar-menu .sidebar-label {
+  color: var(--text-muted);
+}
+
+.sidebar-menu a {
+  color: var(--text-color);
+  border-radius: var(--border-radius-sm);
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+  background-color: var(--haley-accent);
+  color: var(--haley-accent-foreground);
+}
+
+/* Cards */
+.card,
+.frappe-card,
+.form-dashboard-section {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-base);
+}
+
+/* Buttons */
+.btn {
+  border-radius: var(--border-radius-sm);
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+.btn-primary,
+.btn-primary-dark {
+  background-color: var(--haley-accent) !important;
+  border-color: var(--haley-accent) !important;
+  color: var(--haley-accent-foreground) !important;
+}
+
+.btn-primary:hover,
+.btn-primary-dark:hover {
+  filter: brightness(1.1);
+}
+
+.btn-default,
+.btn-secondary {
+  background-color: var(--btn-default-bg);
+  border-color: var(--border-color);
+  color: var(--text-color);
+}
+
+.btn-default:hover,
+.btn-secondary:hover {
+  background-color: var(--btn-default-hover-bg);
+}
+
+/* Form controls */
+.form-control,
+.frappe-control input,
+.frappe-control select,
+.frappe-control textarea {
+  background-color: var(--control-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  color: var(--text-color);
+}
+
+.form-control:focus,
+.frappe-control input:focus,
+.frappe-control select:focus,
+.frappe-control textarea:focus {
+  border-color: var(--haley-accent);
+  box-shadow: 0 0 0 2px oklch(0.4997 0.0979 228.4494 / 0.2);
+}
+
+/* Awesomebar */
+.awesomebar {
+  background-color: var(--control-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.awesomebar:focus-within {
+  background-color: var(--awesomebar-focus-bg);
+  border-color: var(--haley-accent);
+}
+
+/* Page container */
+.page-container {
+  background-color: var(--bg-color);
+}
+
+.main-section {
+  background-color: var(--bg-color);
+}
+
+/* List view */
+.list-row {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.list-row:hover {
+  background-color: var(--haley-muted);
+}
+
+.list-row-container .level-left {
+  color: var(--text-color);
+}
+
+/* Links */
+a {
+  color: var(--haley-accent);
+}
+
+a:hover {
+  color: var(--haley-accent);
+  filter: brightness(1.2);
+}
+
+/* Headings */
+h1, h2, h3, h4, h5, h6,
+.page-title,
+.module-card-label {
+  color: var(--heading-color);
+  font-weight: 600;
+}
+
+/* Alerts */
+.alert-info {
+  background-color: var(--alert-bg-info);
+  border-color: var(--haley-accent);
+  color: var(--alert-text-info);
+}
+
+/* Dropdowns */
+.dropdown-menu {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-base);
+}
+
+.dropdown-item {
+  color: var(--text-color);
+  border-radius: var(--border-radius-sm);
+}
+
+.dropdown-item:hover {
+  background-color: var(--haley-muted);
+}
+
+/* Modal */
+.modal-content {
+  background-color: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+}
+
+.modal-header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+.modal-footer {
+  border-top: 1px solid var(--border-color);
+}
+
+/* Tables */
+.table {
+  color: var(--text-color);
+}
+
+.table th {
+  border-bottom: 2px solid var(--border-color);
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.table td {
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Login page specific */
+.login-content {
+  background-color: var(--bg-color);
+}
+
+.login-content .card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+}
+
+/* Number cards / Dashboard */
+.number-card {
+  border-radius: var(--border-radius);
+}
+
+/* Tags / Pills */
+.badge,
+.indicator-pill {
+  border-radius: var(--border-radius-full);
+}
+
+/* Workspace */
+.workspace-sidebar-item.selected {
+  background-color: var(--haley-accent);
+  color: var(--haley-accent-foreground);
+}
+
+/* Form sections */
+.section-head {
+  color: var(--heading-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+/* Timeline */
+.timeline-item {
+  border-left: 2px solid var(--border-color);
+}
+
+.timeline-dot {
+  background-color: var(--haley-accent);
+}
+
+/* Frappe specific overrides */
+.frappe-list .result {
+  border-radius: var(--border-radius);
+}
+
+.page-form {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+}
+
+/* Standard form layout */
+.form-page {
+  background-color: var(--bg-color);
+}
+
+.form-layout {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius);
+}
