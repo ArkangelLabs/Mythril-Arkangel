@@ -1,4 +1,4 @@
-name: Build and Deploy to AWS Lightsail
+name: Deploy to AWS Lightsail (Bare Metal)
 
 on:
   push:
@@ -6,58 +6,12 @@ on:
   workflow_dispatch:
 
 env:
-  REGISTRY: ghcr.io
-  IMAGE_NAME: arkangellabs/haley
-  LIGHTSAIL_HOST: 3.238.145.199
+  LIGHTSAIL_HOST: 75.101.190.200
   SITE_NAME: haley.localhost
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-
-    outputs:
-      image_tag: ${{ steps.meta.outputs.tags }}
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Extract metadata
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
-          tags: |
-            type=sha,prefix=
-            type=raw,value=latest
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-
   deploy:
-    needs: build
     runs-on: ubuntu-latest
-    if: success()
 
     steps:
       - name: Setup SSH
@@ -67,36 +21,39 @@ jobs:
           chmod 600 ~/.ssh/lightsail.pem
           ssh-keyscan -H ${{ env.LIGHTSAIL_HOST }} >> ~/.ssh/known_hosts
 
-      - name: Deploy with zero downtime
+      - name: Deploy
         run: |
           ssh -i ~/.ssh/lightsail.pem ubuntu@${{ env.LIGHTSAIL_HOST }} << 'DEPLOY'
-            cd /opt/haley
+            sudo -u frappe bash << 'FRAPPE'
+              set -e
+              cd /home/frappe/repos/haley
 
-            # Pull new image
-            echo "Pulling new image..."
-            sudo docker-compose pull
+              echo "=== Pulling latest code ==="
+              git pull origin main
 
-            # Rolling restart - zero downtime
-            echo "Rolling restart..."
-            sudo docker-compose up -d --no-deps --build backend
-            sleep 5
-            sudo docker-compose up -d --no-deps --build queue-short queue-long scheduler websocket
-            sleep 5
-            sudo docker-compose up -d --no-deps --build frontend
+              cd /home/frappe/frappe-bench
+              export PATH=$PATH:/home/frappe/.local/bin
 
-            # Build assets and run migrations
-            echo "Building assets and running migrations..."
-            BACKEND=$(sudo docker-compose ps -q backend)
-            sudo docker exec $BACKEND bench build --app enhanced_kanban_view || true
-            sudo docker exec $BACKEND bench --site haley.localhost migrate --skip-failing || true
+              echo "=== Reinstalling app ==="
+              ./env/bin/pip install -q -e apps/enhanced_kanban_view
 
-            # Clear cache
-            sudo docker exec $BACKEND bench --site haley.localhost clear-cache
+              echo "=== Running migrations ==="
+              bench --site haley.localhost migrate --skip-failing
 
-            echo "Deployment complete!"
+              echo "=== Building assets ==="
+              bench build --app enhanced_kanban_view
+
+              echo "=== Clearing cache ==="
+              bench --site haley.localhost clear-cache
+            FRAPPE
+
+            echo "=== Restarting services ==="
+            sudo supervisorctl restart all
+
+            echo "=== Deployment complete! ==="
           DEPLOY
 
       - name: Health check
         run: |
           sleep 10
-          curl -f http://${{ env.LIGHTSAIL_HOST }}:8080 || echo "Site may still be starting..."
+          curl -f http://${{ env.LIGHTSAIL_HOST }} || echo "Site may still be starting..."
