@@ -2,7 +2,7 @@
 # Based on pipech/erpnext-docker-debian pattern
 # Self-contained with MariaDB + Redis inside, uses bench start
 
-FROM frappe/bench:v5.22.1
+FROM frappe/bench:v5.27.0
 
 ###############################################
 # Build Arguments
