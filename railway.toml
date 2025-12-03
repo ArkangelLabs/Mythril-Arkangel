@@ -1,0 +1,14 @@
+[build]
+builder = "dockerfile"
+dockerfilePath = "Dockerfile"
+watchPatterns = ["production/**", "apps/**", "Dockerfile"]
+
+[build.args]
+FRAPPE_BRANCH = "version-16"
+
+[deploy]
+healthcheckPath = "/api/method/ping"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+numReplicas = 1
