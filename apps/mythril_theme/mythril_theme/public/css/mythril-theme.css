@@ -1,0 +1,176 @@
+/* =============================================================================
+   MYTHRIL THEME - Colors & Radius Only
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   LIGHT MODE
+   ----------------------------------------------------------------------------- */
+:root,
+[data-theme="light"] {
+  /* === Core Theme Variables === */
+  --background: oklch(1.0000 0 0);
+  --foreground: oklch(0.2101 0.0318 264.6645);
+  --card: oklch(1.0000 0 0);
+  --card-foreground: oklch(0.2101 0.0318 264.6645);
+  --popover: oklch(1.0000 0 0);
+  --popover-foreground: oklch(0.2101 0.0318 264.6645);
+  --primary: oklch(0.6716 0.1368 48.5130);
+  --primary-foreground: oklch(1.0000 0 0);
+  --secondary: oklch(0.5360 0.0398 196.0280);
+  --secondary-foreground: oklch(1.0000 0 0);
+  --muted: oklch(0.9670 0.0029 264.5419);
+  --muted-foreground: oklch(0.5510 0.0234 264.3637);
+  --accent: oklch(0.9491 0 0);
+  --accent-foreground: oklch(0.2101 0.0318 264.6645);
+  --destructive: oklch(0.6368 0.2078 25.3313);
+  --destructive-foreground: oklch(0.9851 0 0);
+  --border: oklch(0.9276 0.0058 264.5313);
+  --input: oklch(0.9276 0.0058 264.5313);
+  --ring: oklch(0.6716 0.1368 48.5130);
+  --sidebar: oklch(0.9670 0.0029 264.5419);
+  --sidebar-foreground: oklch(0.2101 0.0318 264.6645);
+  --sidebar-primary: oklch(0.6716 0.1368 48.5130);
+  --sidebar-primary-foreground: oklch(1.0000 0 0);
+  --sidebar-accent: oklch(1.0000 0 0);
+  --sidebar-accent-foreground: oklch(0.2101 0.0318 264.6645);
+  --sidebar-border: oklch(0.9276 0.0058 264.5313);
+
+  /* === Chart Colors === */
+  --chart-1: oklch(0.5940 0.0443 196.0233);
+  --chart-2: oklch(0.7214 0.1337 49.9802);
+  --chart-3: oklch(0.8721 0.0864 68.5474);
+  --chart-4: oklch(0.6268 0 0);
+  --chart-5: oklch(0.6830 0 0);
+
+  /* === Radius === */
+  --radius: 0.45rem;
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  /* === FRAPPE VARIABLE MAPPINGS === */
+  --bg-color: var(--background);
+  --fg-color: var(--card);
+  --text-color: var(--foreground);
+  --text-muted: var(--muted-foreground);
+  --heading-color: var(--foreground);
+  --card-bg: var(--card);
+  --modal-bg: var(--popover);
+  --navbar-bg: var(--sidebar);
+  --control-bg: var(--muted);
+  --control-bg-on-gray: var(--accent);
+  --border-color: var(--border);
+  --input-border-color: var(--input);
+  --disabled-control-bg: var(--muted);
+  --btn-primary-bg: var(--primary);
+  --btn-primary-color: var(--primary-foreground);
+  --btn-primary-hover-bg: var(--primary);
+  --btn-secondary-bg: var(--secondary);
+  --btn-secondary-color: var(--secondary-foreground);
+  --btn-danger-bg: var(--destructive);
+  --btn-danger-color: var(--destructive-foreground);
+  --focus-ring: var(--ring);
+  --awesomebar-focus-bg: var(--accent);
+  --sidebar-bg: var(--sidebar);
+  --sidebar-text: var(--sidebar-foreground);
+  --text-on-blue: var(--primary-foreground);
+  --bg-blue: var(--primary);
+  --text-on-green: var(--primary-foreground);
+  --bg-green: oklch(0.6500 0.1500 145);
+  --text-on-red: var(--destructive-foreground);
+  --bg-red: var(--destructive);
+  --text-on-orange: var(--primary-foreground);
+  --bg-orange: oklch(0.7214 0.1337 49.9802);
+  --text-on-yellow: var(--foreground);
+  --bg-yellow: oklch(0.8721 0.0864 68.5474);
+
+  /* Frappe border radius */
+  --border-radius: var(--radius);
+  --border-radius-sm: var(--radius-sm);
+  --border-radius-md: var(--radius-md);
+  --border-radius-lg: var(--radius-lg);
+}
+
+/* -----------------------------------------------------------------------------
+   DARK MODE
+   ----------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  /* === Core Theme Variables === */
+  --background: oklch(0.1797 0.0043 308.1928);
+  --foreground: oklch(0.8109 0 0);
+  --card: oklch(0.1822 0 0);
+  --card-foreground: oklch(0.8109 0 0);
+  --popover: oklch(0.1797 0.0043 308.1928);
+  --popover-foreground: oklch(0.8109 0 0);
+  --primary: oklch(0.7214 0.1337 49.9802);
+  --primary-foreground: oklch(0.1797 0.0043 308.1928);
+  --secondary: oklch(0.5940 0.0443 196.0233);
+  --secondary-foreground: oklch(0.1797 0.0043 308.1928);
+  --muted: oklch(0.2520 0 0);
+  --muted-foreground: oklch(0.6268 0 0);
+  --accent: oklch(0.3211 0 0);
+  --accent-foreground: oklch(0.8109 0 0);
+  --destructive: oklch(0.5940 0.0443 196.0233);
+  --destructive-foreground: oklch(0.1797 0.0043 308.1928);
+  --border: oklch(0.2520 0 0);
+  --input: oklch(0.2520 0 0);
+  --ring: oklch(0.7214 0.1337 49.9802);
+  --sidebar: oklch(0.1822 0 0);
+  --sidebar-foreground: oklch(0.8109 0 0);
+  --sidebar-primary: oklch(0.7214 0.1337 49.9802);
+  --sidebar-primary-foreground: oklch(0.1797 0.0043 308.1928);
+  --sidebar-accent: oklch(0.3211 0 0);
+  --sidebar-accent-foreground: oklch(0.8109 0 0);
+  --sidebar-border: oklch(0.2520 0 0);
+
+  /* === Chart Colors === */
+  --chart-1: oklch(0.5940 0.0443 196.0233);
+  --chart-2: oklch(0.7214 0.1337 49.9802);
+  --chart-3: oklch(0.8721 0.0864 68.5474);
+  --chart-4: oklch(0.6268 0 0);
+  --chart-5: oklch(0.6830 0 0);
+
+  /* === FRAPPE VARIABLE MAPPINGS (Dark) === */
+  --bg-color: var(--background);
+  --fg-color: var(--card);
+  --text-color: var(--foreground);
+  --text-muted: var(--muted-foreground);
+  --heading-color: var(--foreground);
+  --card-bg: var(--card);
+  --modal-bg: var(--popover);
+  --navbar-bg: var(--sidebar);
+  --control-bg: var(--muted);
+  --control-bg-on-gray: var(--accent);
+  --border-color: var(--border);
+  --input-border-color: var(--input);
+  --disabled-control-bg: var(--muted);
+  --btn-primary-bg: var(--primary);
+  --btn-primary-color: var(--primary-foreground);
+  --btn-secondary-bg: var(--secondary);
+  --btn-secondary-color: var(--secondary-foreground);
+  --btn-danger-bg: var(--destructive);
+  --btn-danger-color: var(--destructive-foreground);
+  --focus-ring: var(--ring);
+  --awesomebar-focus-bg: var(--accent);
+  --sidebar-bg: var(--sidebar);
+  --sidebar-text: var(--sidebar-foreground);
+  --bg-blue: var(--primary);
+  --bg-green: oklch(0.5500 0.1200 145);
+  --bg-red: var(--destructive);
+  --bg-orange: oklch(0.6500 0.1200 50);
+  --bg-yellow: oklch(0.7500 0.0800 70);
+}
+
+/* Hide right sidebar (filters, tags, saved filters, Frappe ad) */
+.layout-side-section.right {
+  display: none !important;
+}
+
+/* Hide ERPNext splash screen */
+#splash,
+.splash,
+.splash-screen,
+[id*="splash"] {
+  display: none !important;
+}
